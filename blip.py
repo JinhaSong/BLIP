@@ -15,11 +15,6 @@ class BLIP:
         self.processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
         self.model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base").to(self.device)
 
-        self.model = blip_decoder(pretrained="/workspace/module/weights/model_base_capfilt_large.pth", image_size=self.image_size, vit='base', med_config="/workspace/module/image2text/blip/configs/med_config.json")
-        self.model.eval()
-        self.model = self.model.to(self.device)
-
-
     def generate_caption(self, image_path, text="a photography of"):
         raw_image = Image.open(image_path).convert('RGB')
 
