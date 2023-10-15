@@ -15,14 +15,16 @@ class BLIP:
         self.processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
         self.model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base").to(self.device)
 
-    def generate_caption_from_path(self, image_path, text="a photography of"):
+    def generate_caption_from_path(self, image_path):
+        text = ""
         raw_image = Image.open(image_path).convert('RGB')
 
         inputs = self.processor(raw_image, text, return_tensors="pt").to("cuda")
         out = self.model.generate(**inputs)
         return self.processor.decode(out[0], skip_special_tokens=True)
 
-    def generate_caption_from_image(self, raw_image, text="a photography of"):
+    def generate_caption_from_image(self, raw_image):
+        text = ""
         inputs = self.processor(raw_image, text, return_tensors="pt").to("cuda")
         out = self.model.generate(**inputs)
         return self.processor.decode(out[0], skip_special_tokens=True)
